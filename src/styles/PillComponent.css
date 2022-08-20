@@ -1,0 +1,17 @@
+.pill-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.5rem;
+    border: 1px solid gray;
+    border-radius: 5rem;
+    padding: 1rem;
+    background-color: white;
+}
+
+.pill-container-select {
+    /* height: 100%;
+    width: 100%; */
+    border: none;
+    margin-left: .5rem;
+}

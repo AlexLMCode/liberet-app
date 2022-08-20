@@ -1,0 +1,11 @@
+.dates_container {
+    margin: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.dates_container p{
+    font-weight: bold;
+}

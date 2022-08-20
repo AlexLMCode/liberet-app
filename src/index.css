@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "Gotham";
+  src: url("./assets/fonts/GothamBook.ttf");
+}
+
+:root {
+  --primary-color: #fcab3f;
+  --primary-two-color: #fdc963;
+  --primary-tree-color: #4d4d4d;
+  --secondary-color: #a1d2ce;
+  --secondary-two-color: #f49897;
+  --secondary-tree-color: #e4e4e4;
+  --secondary-four-color: #fef2f1;
+}
+
+* {
+  font-family: "Gotham";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 1.5rem auto 0 auto;
+  max-width: 1050px;
+}
+
+section {
+  margin-bottom: 2rem;
+}

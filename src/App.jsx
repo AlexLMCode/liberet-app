@@ -12,30 +12,43 @@ export const App = () => {
   const [selectedCategory, setSelectedCategory] = useState("Beef");
   const { categories } = useCategories(selectedCategory);
   const [completeMeals, setCompleteMeals] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let fullMeals = [];
-    // setIsLoading(true);
-    getMeals(selectedCategory).then((categoryMeals) => {
-      categoryMeals.forEach((categoryMeal) => {
-        getMealById(categoryMeal.idMeal).then((fullMeal) => {
-          fullMeals.push({
-            idMeal: categoryMeal.idMeal,
-            title: categoryMeal.strMeal,
-            photo: categoryMeal.strMealThumb,
-            strArea: fullMeal[0].strArea,
-            tags: fullMeal[0].strTags?.split(",", 1)[0]
-              ? fullMeal[0].strTags.split(",", 1)[0]
-              : "No tag",
-          });
-          setCompleteMeals(fullMeals);
-          // setIsLoading(false);
-        });
-      });
-    });
-    console.log(completeMeals);
+    getFullMeals(selectedCategory);
   }, [selectedCategory]);
+
+  const getFullMeals = async (c) => {
+    setIsLoading(true);
+    const m = await getMeals(c);
+    const fullMeals = await Promise.all(
+      m.map(async (categoryMeal) => {
+        const fullMeal = await getMealById(categoryMeal.idMeal);
+
+        let formatter = new Intl.NumberFormat("es-ES", {
+          style: "currency",
+          currency: "MXN",
+        });
+
+        return {
+          idMeal: formatter.format(categoryMeal.idMeal),
+          title: categoryMeal.strMeal,
+          photo: categoryMeal.strMealThumb,
+          strArea: fullMeal[0].strArea,
+          tag: fullMeal[0].strTags?.split(",", 1)[0]
+            ? fullMeal[0].strTags.split(",", 1)[0]
+            : "No tag",
+        };
+      })
+    );
+    setCompleteMeals(fullMeals);
+    setIsLoading(false);
+  };
+
+  const onChangeCategory = (value) => {
+    setSelectedCategory(value);
+    getFullMeals(value);
+  };
 
   const getMeals = async (c = "Beef") => {
     let res = await fetch(
@@ -63,7 +76,6 @@ export const App = () => {
           <DatesComponent />
         </section>
       </main>
-
       <div className="container-info">
         <div className="container">
           <section className="options-container">
@@ -73,7 +85,7 @@ export const App = () => {
             <div>
               <ServicePillComponent
                 categories={categories}
-                setSelected={setSelectedCategory}
+                setSelected={onChangeCategory}
               />
             </div>
             <div>
@@ -81,16 +93,31 @@ export const App = () => {
             </div>
           </section>
           <section className="platillos-container">
-            {completeMeals &&
+            {isLoading ? (
+              <h1>Loading...</h1>
+            ) : (
               completeMeals.map((meal) => (
                 <PlatilloComponent
                   category={meal.strArea}
                   image={meal.photo}
                   price={meal.idMeal}
                   title={meal.title}
+                  tag={meal.tag}
                   key={meal.idMeal}
                 />
-              ))}
+              ))
+            )}
+            {/* {completeMeals &&
+              completeMeals.map((meal) => (
+                <PlatilloComponent
+                  category={meal.strArea}
+                  image={meal.photo}
+                  price={meal.idMeal}
+                  title={meal.title}
+                  tag={meal.tag}
+                  key={meal.idMeal}
+                />
+              ))} */}
           </section>
         </div>
       </div>

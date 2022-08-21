@@ -4,6 +4,7 @@
 
 .container-info{
     background-color: #efefef;
+    padding-bottom: 1rem;
 }
 
 .options-container{
@@ -11,8 +12,24 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 1rem;
+    overflow-y: scroll;
+
 }
 
 .options-container div {
     width: 14rem;
 }
+
+.platillos-container {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-items: center;
+    gap: 2rem;
+}
+
+@media (max-width: 600px) {
+    .platillos-container {
+        grid-template-columns: 1fr;
+        padding: 0 1rem 0 1rem;
+    }
+  }

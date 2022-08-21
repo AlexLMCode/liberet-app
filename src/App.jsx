@@ -107,17 +107,6 @@ export const App = () => {
                 />
               ))
             )}
-            {/* {completeMeals &&
-              completeMeals.map((meal) => (
-                <PlatilloComponent
-                  category={meal.strArea}
-                  image={meal.photo}
-                  price={meal.idMeal}
-                  title={meal.title}
-                  tag={meal.tag}
-                  key={meal.idMeal}
-                />
-              ))} */}
           </section>
         </div>
       </div>
